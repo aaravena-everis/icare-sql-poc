@@ -5,7 +5,6 @@ var mysql      = require('mysql');
 var bodyParser = require('body-parser');
 
 //Conexión a SQL
-//mysql://us-cdbr-iron-east-05.cleardb.net/heroku_274f3b780ac622f?reconnect=true
 var connection = mysql.createConnection({
   host     : 'us-cdbr-iron-east-05.cleardb.net',
   user     : 'b0b485ece04372',
@@ -26,10 +25,10 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 
 //Servidor nodeJS
-var server = app.listen(3000, "0.0.0.0", function () {
+var server = app.listen(process.env.PORT || 3000, "0.0.0.0", function () {
 
   var host = server.address().address
-  var port = process.env.PORT || 3000;
+  var port = server.address().port
 
   console.log("Ejemplo de app ejecutandose en http://%s:%s", host, port)
 
