@@ -3,10 +3,9 @@ var express = require('express');
 var app = express();
 var mysql      = require('mysql');
 var bodyParser = require('body-parser');
-var port = process.env.PORT || 3000;
-
 
 //Conexión a SQL
+//mysql://us-cdbr-iron-east-05.cleardb.net/heroku_274f3b780ac622f?reconnect=true
 var connection = mysql.createConnection({
   host     : 'us-cdbr-iron-east-05.cleardb.net',
   user     : 'b0b485ece04372',
@@ -27,12 +26,14 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 
 //Servidor nodeJS
-// serve
-http.createServer( function ( request, response ) {
-    request.addListener( 'end', function () {
-		app.serve( request, response );
-    } ).resume();
-} ).listen( port );
+var server = app.listen(3000, "0.0.0.0", function () {
+
+  var host = server.address().address
+  var port = process.env.PORT || 3000;
+
+  console.log("Ejemplo de app ejecutandose en http://%s:%s", host, port)
+
+});
 
 //EJEMPLO DE SELECT -- GET
 //rest api to get all customers
