@@ -30,10 +30,9 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 // serve
 http.createServer( function ( request, response ) {
     request.addListener( 'end', function () {
-        file.serve( request, response );
+		app.serve( request, response );
     } ).resume();
 } ).listen( port );
-
 
 //EJEMPLO DE SELECT -- GET
 //rest api to get all customers
