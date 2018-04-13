@@ -3,6 +3,8 @@ var express = require('express');
 var app = express();
 var mysql      = require('mysql');
 var bodyParser = require('body-parser');
+var port = process.env.PORT || 3000;
+
 
 //Conexión a SQL
 var connection = mysql.createConnection({
@@ -25,14 +27,13 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 
 //Servidor nodeJS
-var server = app.listen(3000, "127.0.0.1", function () {
+// serve
+http.createServer( function ( request, response ) {
+    request.addListener( 'end', function () {
+        file.serve( request, response );
+    } ).resume();
+} ).listen( port );
 
-  var host = server.address().address
-  var port = server.address().port
-
-  console.log("Ejemplo de app ejecutandose en http://%s:%s", host, port)
-
-});
 
 //EJEMPLO DE SELECT -- GET
 //rest api to get all customers
