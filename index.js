@@ -1,8 +1,39 @@
-var http = require("http");
-var express = require('express');
-var app = express();
-var mysql      = require('mysql');
-var bodyParser = require('body-parser');
+var http 			= require("http");
+var express 		= require('express');
+var app 			= express();
+var mysql      		= require('mysql');
+var bodyParser 		= require('body-parser');
+var compression 	= require('compression');
+var methodOverride 	= require('method-override');
+
+// Middlewares
+var allowCrossDomain = function(req, res, next) {
+ res.header('Access-Control-Allow-Origin', '*');
+ res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+ res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+ if ('OPTIONS' == req.method)res.sendStatus(200);else next();
+};
+
+//Body-parse
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+}));
+app.use(compression());
+app.use(allowCrossDomain);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(methodOverride());
+
+//Servidor nodeJS
+var server = app.listen(process.env.PORT || 3000, "0.0.0.0", function () {
+
+  var host = server.address().address
+  var port = server.address().port
+
+  console.log("Ejemplo de app ejecutandose en http://%s:%s", host, port)
+
+});
 
 //Conexión a SQL
 var connection = mysql.createConnection({
@@ -17,22 +48,6 @@ connection.connect(function(err) {
   if (err) throw err
   console.log('Estas conectado a la base de datos')
 })
-
-//Body-parse
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-  extended: true
-}));
-
-//Servidor nodeJS
-var server = app.listen(process.env.PORT || 3000, "0.0.0.0", function () {
-
-  var host = server.address().address
-  var port = server.address().port
-
-  console.log("Ejemplo de app ejecutandose en http://%s:%s", host, port)
-
-});
 
 //EJEMPLO DE SELECT -- GET
 //rest api to get all customers
