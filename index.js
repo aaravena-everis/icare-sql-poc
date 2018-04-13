@@ -3,7 +3,6 @@ var express 		= require('express');
 var app 			= express();
 var mysql      		= require('mysql');
 var bodyParser 		= require('body-parser');
-var compression 	= require('compression');
 var methodOverride 	= require('method-override');
 
 // Middlewares
@@ -15,14 +14,10 @@ var allowCrossDomain = function(req, res, next) {
 };
 
 //Body-parse
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-  extended: true
-}));
-app.use(compression());
-app.use(allowCrossDomain);
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(allowCrossDomain);
 app.use(methodOverride());
 
 //Servidor nodeJS
