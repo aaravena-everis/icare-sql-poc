@@ -43,12 +43,17 @@ app.use(api);
 //CONTROLLERS
 var customerCtrl = require('./controllers/customer');
 
+var enVivoCtrl = require('./controllers/en-vivo')
+
 // API routes
 app.use('/api', api);
 api.route('/customer').get(customerCtrl.getCustomers);
 api.route('/customer/add').post(customerCtrl.addCustomer);
 api.route('/customer/update').put(customerCtrl.updateCustomer);
 api.route('/customer/delete').delete(customerCtrl.delCustomer);
+
+//EN VIVO
+api.route('/en-vivo').get(enVivoCtrl.getAllEnVivo);
 
 //Servidor nodeJS
 app.listen(port, function() {
